@@ -5,6 +5,8 @@ const MODEL = "gemini-3.5-flash-lite";
 const FALLBACK_REPLY =
   "Mình chưa có thông tin để trả lời câu này. Bạn để lại câu hỏi ở đây, hoặc để lại email/số điện thoại trong form báo giá, đội ngũ tư vấn sẽ liên hệ lại nhé.";
 
+const ERROR_REPLY = "Xin lỗi bạn, hệ thống đang bị lỗi, chúng tôi sẽ liên lạc lại sớm nhất";
+
 const SYSTEM_INSTRUCTION = `Bạn là trợ lý tư vấn du học của DuHoc24, ngắn gọn, thân thiện.
 
 QUY TẮC BẮT BUỘC:
@@ -51,7 +53,7 @@ export async function POST(request: Request) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) {
     return Response.json(
-      { reply: FALLBACK_REPLY, error: "missing_api_key" },
+      { reply: ERROR_REPLY, error: "missing_api_key" },
       { status: 500 },
     );
   }
