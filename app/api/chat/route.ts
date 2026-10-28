@@ -101,7 +101,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Gemini chat error:", error);
     return Response.json(
-      { reply: FALLBACK_REPLY, error: "gemini_request_failed" },
+      { reply: ERROR_REPLY, error: "gemini_request_failed" },
       { status: 500 },
     );
   }

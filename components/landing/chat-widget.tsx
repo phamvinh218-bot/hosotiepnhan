@@ -21,8 +21,7 @@ const initialMessages: Message[] = [
   { from: "bot", text: "Chào bạn! Mình là trợ lý ảo của DuHoc24, bạn cần hỗ trợ gì về hồ sơ du học?" },
 ];
 
-const ERROR_REPLY =
-  "Xin lỗi, mình đang gặp sự cố kết nối. Bạn thử lại sau ít phút, hoặc để lại email/số điện thoại trong form báo giá nhé.";
+const ERROR_REPLY = "Xin lỗi bạn, hệ thống đang bị lỗi, chúng tôi sẽ liên lạc lại sớm nhất";
 
 export function ChatWidget() {
   const [open, setOpen] = React.useState(false);
