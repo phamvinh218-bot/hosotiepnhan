@@ -73,3 +73,10 @@ export async function getConversation(id: string): Promise<ConversationDetail | 
     })),
   };
 }
+
+export async function deleteConversation(id: string): Promise<void> {
+  const supabase = getSupabaseAdmin();
+  // conversation_messages has ON DELETE CASCADE on conversation_id, nên chỉ cần xóa conversations.
+  const { error } = await supabase.from("conversations").delete().eq("id", id);
+  if (error) throw error;
+}

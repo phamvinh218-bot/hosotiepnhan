@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/page-header";
+import { DeleteConversationButton } from "@/components/admin/delete-conversation-button";
 import { Card } from "@/components/ui/card";
 import { getConversation } from "@/lib/supabase-admin";
 import { cn, formatDateTime, formatTime } from "@/lib/utils";
@@ -33,6 +34,13 @@ export default async function AdminConversationDetailPage({
       <AdminPageHeader
         title={`Hội thoại kênh ${conversation.channel}`}
         description={`Bắt đầu lúc ${formatDateTime(conversation.startedAt)} · ${conversation.messageCount} tin nhắn`}
+        action={
+          <DeleteConversationButton
+            id={conversation.id}
+            redirectTo="/admin/conversations"
+            label="Xóa hội thoại"
+          />
+        }
       />
 
       <Card className="space-y-3 p-4">

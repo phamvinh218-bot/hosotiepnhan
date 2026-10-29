@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { AdminPageHeader } from "@/components/admin/page-header";
+import { DeleteConversationButton } from "@/components/admin/delete-conversation-button";
 import { Card } from "@/components/ui/card";
 import {
   Table,
@@ -52,12 +53,15 @@ export default async function AdminConversationsPage() {
                     {formatDateTime(conv.startedAt)}
                   </TableCell>
                   <TableCell className="text-right">
-                    <Link
-                      href={`/admin/conversations/${conv.id}`}
-                      className="text-sm font-medium text-primary hover:underline"
-                    >
-                      Xem chi tiết
-                    </Link>
+                    <div className="flex items-center justify-end gap-3">
+                      <Link
+                        href={`/admin/conversations/${conv.id}`}
+                        className="text-sm font-medium text-primary hover:underline"
+                      >
+                        Xem chi tiết
+                      </Link>
+                      <DeleteConversationButton id={conv.id} />
+                    </div>
                   </TableCell>
                 </TableRow>
               ))
