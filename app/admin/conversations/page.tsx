@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { AdminPageHeader } from "@/components/admin/page-header";
 import { DeleteConversationButton } from "@/components/admin/delete-conversation-button";
+import { LeadQualityBadge } from "@/components/admin/lead-info-card";
 import { Card } from "@/components/ui/card";
 import {
   Table,
@@ -11,6 +12,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { listConversations } from "@/lib/supabase-admin";
+import { backfillLeadQualities } from "@/lib/lead-extraction";
 import { formatDateTime } from "@/lib/utils";
 
 // Danh sách hội thoại đổi liên tục khi có khách chat mới — luôn lấy dữ liệu
@@ -19,6 +21,7 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminConversationsPage() {
   const conversations = await listConversations();
+  const leadQualities = await backfillLeadQualities(conversations);
 
   return (
     <>
@@ -34,13 +37,14 @@ export default async function AdminConversationsPage() {
               <TableHead>Kênh</TableHead>
               <TableHead>Số tin nhắn</TableHead>
               <TableHead>Thời gian bắt đầu</TableHead>
+              <TableHead>Chất lượng lead</TableHead>
               <TableHead className="text-right">Thao tác</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {conversations.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={4} className="text-center text-muted-foreground">
+                <TableCell colSpan={5} className="text-center text-muted-foreground">
                   Chưa có cuộc hội thoại nào.
                 </TableCell>
               </TableRow>
@@ -51,6 +55,9 @@ export default async function AdminConversationsPage() {
                   <TableCell>{conv.messageCount} tin nhắn</TableCell>
                   <TableCell className="text-muted-foreground">
                     {formatDateTime(conv.startedAt)}
+                  </TableCell>
+                  <TableCell>
+                    <LeadQualityBadge quality={leadQualities.get(conv.id) ?? null} />
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex items-center justify-end gap-3">

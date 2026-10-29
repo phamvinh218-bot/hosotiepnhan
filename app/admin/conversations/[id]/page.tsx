@@ -3,8 +3,10 @@ import { notFound } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { AdminPageHeader } from "@/components/admin/page-header";
 import { DeleteConversationButton } from "@/components/admin/delete-conversation-button";
+import { LeadInfoCard } from "@/components/admin/lead-info-card";
 import { Card } from "@/components/ui/card";
 import { getConversation } from "@/lib/supabase-admin";
+import { getOrExtractLead } from "@/lib/lead-extraction";
 import { cn, formatDateTime, formatTime } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -20,6 +22,8 @@ export default async function AdminConversationDetailPage({
   if (!conversation) {
     notFound();
   }
+
+  const lead = await getOrExtractLead(conversation);
 
   return (
     <>
@@ -42,6 +46,10 @@ export default async function AdminConversationDetailPage({
           />
         }
       />
+
+      <div className="mb-4">
+        <LeadInfoCard lead={lead} />
+      </div>
 
       <Card className="space-y-3 p-4">
         {conversation.messages.length === 0 ? (
